@@ -20,7 +20,7 @@ MongoClient.connect(process.env.MONGODB_URL)
     });
 };
 
-const getDatabase = () => {
+const getDb = () => {
     if (!database) {
         throw Error('Database not initialized')
 }
@@ -29,5 +29,5 @@ return database;
 
 module.exports = {
     initDb,
-    getDatabase
+    getDb
 };
