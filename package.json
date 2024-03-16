@@ -1,5 +1,5 @@
 {
-  "name": "cse341-project1",
+  "name": "cse341-project2",
   "version": "1.0.0",
   "description": "My First Project",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TuckTuck94/cse341-project1.git"
+    "url": "git+https://github.com/TuckTuck94/cse341-project2.git"
   },
   "author": "Michael Tucker",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TuckTuck94/cse341-project1/issues"
+    "url": "https://github.com/TuckTuck94/cse341-project2/issues"
   },
-  "homepage": "https://github.com/TuckTuck94/cse341-project1#readme",
+  "homepage": "https://github.com/TuckTuck94/cse341-project2#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

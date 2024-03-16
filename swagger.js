@@ -7,7 +7,7 @@ const doc = {
     },
     servers: [
         {
-            url: 'https://cse341-project1-o626.onrender.com', 
+            url: 'https://cse341-project2-o626.onrender.com', 
             description:'Michael\'s Render URL',
         },
         {
