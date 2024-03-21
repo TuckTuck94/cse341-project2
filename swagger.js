@@ -7,10 +7,6 @@ const doc = {
     },
     servers: [
         {
-            url: 'https://cse341-project2-o626.onrender.com', 
-            description:'Michael\'s Render URL',
-        },
-        {
             url: 'http://localhost:8080',
             description:'Local Host',
         }

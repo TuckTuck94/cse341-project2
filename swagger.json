@@ -7,10 +7,6 @@
   },
   "servers": [
     {
-      "url": "https://cse341-project1-o626.onrender.com",
-      "description": "Michael's Render URL"
-    },
-    {
       "url": "http://localhost:8080",
       "description": "Local Host"
     }
@@ -29,7 +25,7 @@
         }
       }
     },
-    "/contacts": {
+    "/students": {
       "get": {
         "tags": [
           "Users"
@@ -69,7 +65,7 @@
                   "email": {
                     "example": "any"
                   },
-                  "favoriteColor": {
+                  "studentsId": {
                     "example": "any"
                   },
                   "birthday": {
@@ -82,7 +78,7 @@
         }
       }
     },
-    "/contacts/{id}": {
+    "/students/{id}": {
       "get": {
         "tags": [
           "Users"
@@ -142,7 +138,7 @@
                   "email": {
                     "example": "any"
                   },
-                  "favoriteColor": {
+                  "studentsId": {
                     "example": "any"
                   },
                   "birthday": {
