@@ -1,38 +1,31 @@
-// validation.js
+const Joi = require("joi");
 
-const { body, param, validationResult } = require("express-validator");
+const blogSchema = Joi.object().keys({
+  firstName: Joi.string()
+    .uppercase()
+    .trim()
+    .required()
+    .min(2)
+    .regex(/^([a-zA-Z][^0-9]*)$/)
+    .label("First Name")
+    .messages({
+      "string.min": '"First Name" must be a string with at least 2 characters.',
+      "string.pattern.base": '"First Name" cannot have numbers.',
+    }),
+  lastName: Joi.string()
+    .uppercase()
+    .trim()
+    .required()
+    .min(2)
+    .regex(/^([a-zA-Z][^0-9]*)$/)
+    .label("Last Name")
+    .messages({
+      "string.min": '"Last Name" must be a string with at least 2 characters.',
+      "string.pattern.base": '"Last Name" cannot have numbers.',
+    }),
+  email: Joi.string().email().lowercase().trim().min(7).required(),
+  studentID: Joi.number().min(5).required(),
+  birthday: Joi.date().max("now").required(),
+});
 
-const validate = (method) => {
-  switch (method) {
-    case "createstudents":
-      return [
-        body("firstName").notEmpty().withMessage("First name is required"),
-        body("lastName").notEmpty().withMessage("Last name is required"),
-        body("email").isEmail().withMessage("Invalid email address"),
-        body("studentsId").notEmpty().withMessage("Student ID is required"),
-        body("birthday").notEmpty().withMessage("Birthday is required"),
-      ];
-    case "updatestudents":
-      return [
-        param("id").notEmpty().withMessage("Student ID is required"),
-        body("firstName").notEmpty().withMessage("First name is required"),
-        body("lastName").notEmpty().withMessage("Last name is required"),
-        body("email").isEmail().withMessage("Invalid email address"),
-        body("studentsId").notEmpty().withMessage("Student ID is required"),
-        body("birthday").notEmpty().withMessage("Birthday is required"),
-      ];
-  }
-};
-
-const handleValidationErrors = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  next();
-};
-
-module.exports = {
-  validate,
-  handleValidationErrors,
-};
+module.exports = { blogSchema };

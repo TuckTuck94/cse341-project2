@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongodb = require("./data/database.js");
 const app = express();
+const createError = require("http-errors");
 
 const port = process.env.PORT || 8080;
 
@@ -31,9 +32,18 @@ app.use("/", require("./routes"));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Error handling middleware
+app.use((req, res, next) => {
+  next(createError(404, "Not Found"));
+});
+
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Internal server error" });
+  res.status(err.status || 500);
+  res.send({
+    error: {
+      status: err.status || 500,
+      message: err.message,
+    },
+  });
 });
 
 // Initialize MongoDB
