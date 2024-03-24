@@ -1,18 +1,33 @@
 const express = require("express");
 const cors = require("cors");
+const session = require('express-session');
 const bodyParser = require("body-parser");
 const mongodb = require("./data/database.js");
 const app = express();
 const createError = require("http-errors");
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 const port = process.env.PORT || 8080;
 
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 
+
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+}))
+//Basic express session({..}) initialization.
+.use(passport.initialize())
+//init passport on every route call.
+.use(passport.session())
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -45,6 +60,38 @@ app.use((err, req, res, next) => {
     },
   });
 });
+
+
+
+//use GitHubStrategy
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: provess.env.GITHUB_CLIENT_SECRET,
+  callbackURL: process.env.CALLBACK_URL
+},
+function(accessToken, refreshToken, profile, done) {
+  //User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    return done(null,profile);
+
+  //})
+}
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((user, done) =>{
+  done(null, user);
+});
+
+app.get('/', (req, res) => { res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}` : 'Logged Out' )});
+
+app.get('/github/callback', passport.authenticate('github', {
+  failureRedirect: 'api-docs', session: false}),
+  (req, res) => {
+    req.session.user = req.user;
+    res.redirect('/');
+  });
 
 // Initialize MongoDB
 mongodb.initDb((err) => {
